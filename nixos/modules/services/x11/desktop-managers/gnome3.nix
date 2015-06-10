@@ -82,6 +82,7 @@ in {
     # Enable helpful DBus services.
     security.polkit.enable = true;
     services.udisks2.enable = true;
+    services.colord.enable = true;
     services.accounts-daemon.enable = true;
     services.geoclue2.enable = mkDefault true;
     services.gnome3.at-spi2-core.enable = true;

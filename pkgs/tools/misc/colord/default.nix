@@ -1,4 +1,4 @@
-{ stdenv, fetchzip, fetchgit, bashCompletion
+{ stdenv, fetchzip, makeWrapper, bashCompletion
 , glib, polkit, pkgconfig, intltool, gusb, libusb1, lcms2, sqlite, systemd, dbus
 , automake, autoconf, libtool, gtk_doc, which, gobjectIntrospection, argyllcms
 , libgudev }:
@@ -17,15 +17,25 @@ stdenv.mkDerivation rec {
     "--with-udevrulesdir=$out/lib/udev/rules.d"
     "--with-systemdsystemunitdir=$(out)/etc/systemd/system"
     "--disable-bash-completion"
+    "--localstatedir=/var"
   ];
 
+  nativeBuildInputs = [ makeWrapper ];
   buildInputs = [ glib polkit pkgconfig intltool gusb libusb1 lcms2 sqlite systemd dbus gobjectIntrospection
                   bashCompletion argyllcms automake autoconf libgudev ];
+
+  preConfigure = ''
+    sed -ri 's/install-data-hook:/&\n\ndisabled:/' src/Makefile.*
+  '';
 
   postInstall = ''
     rm -fr $out/var/lib/colord
     mkdir -p $out/etc/bash_completion.d
     cp -v data/colormgr $out/etc/bash_completion.d
+  '';
+
+  preFixup = ''
+    wrapProgram $out/libexec/colord-session --prefix XDG_DATA_DIRS : "$GSETTINGS_SCHEMAS_PATH"
   '';
 
   meta = {
