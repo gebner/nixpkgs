@@ -11615,14 +11615,13 @@ let
 
   pyaml = buildPythonPackage (rec {
     name = "pyaml-15.02.1";
-    disabled = !isPy27;
 
     src = pkgs.fetchurl {
       url = "https://pypi.python.org/packages/source/p/pyaml/${name}.tar.gz";
       md5 = "e98cf27f50b9ca291ca4937c135db1c9";
     };
 
-    buildInputs = with self; [ pyyaml ];
+    propagatedBuildInputs = with self; [ pyyaml ];
 
     meta = {
       description = "PyYAML-based module to produce pretty and readable YAML-serialized data";
@@ -16770,7 +16769,6 @@ let
 
   html2text = buildPythonPackage rec {
     name = "html2text-2014.12.29";
-    disabled = ! isPy27;
 
     src = pkgs.fetchurl {
       url = "https://pypi.python.org/packages/source/h/html2text/html2text-2014.12.29.tar.gz";
@@ -16819,7 +16817,7 @@ let
 
   networkx = buildPythonPackage rec {
     name = "networkx-1.9.1";
-    disabled = ! isPy27;
+    disabled = isPyPy;
 
     src = pkgs.fetchurl {
       url = "https://pypi.python.org/packages/source/n/networkx/networkx-1.9.1.tar.gz";
@@ -16837,7 +16835,7 @@ let
 
   basemap = buildPythonPackage rec {
     name = "basemap-1.0.7";
-    disabled = ! isPy27;
+    disabled = isPyPy;
 
     src = pkgs.fetchurl {
       url = "mirror://sourceforge/project/matplotlib/matplotlib-toolkits/basemap-1.0.7/basemap-1.0.7.tar.gz";
