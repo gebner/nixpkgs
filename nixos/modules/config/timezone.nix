@@ -40,7 +40,7 @@ in
     systemd.globalEnvironment.TZDIR = tzdir;
 
     environment.etc.localtime =
-      { source = "${tzdir}/${config.time.timeZone}";
+      { source = "/etc/zoneinfo/${config.time.timeZone}";
         mode = "direct-symlink";
       };
 
