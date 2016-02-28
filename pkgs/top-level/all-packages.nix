@@ -6934,6 +6934,20 @@ let
 
   qt-mobility = callPackage ../development/libraries/qt-mobility {};
 
+  ubuntu-ui-toolkit = callPackage ../development/libraries/ubuntu-ui-toolkit {
+    inherit (qt55) qtbase qtquick1 qtdeclarative qtgraphicaleffects qtquickcontrols;
+  };
+  qtpim = callPackage ../development/libraries/qtpim {
+    inherit (qt55) qtbase;
+  };
+  qtfeedback = callPackage ../development/libraries/qtfeedback {
+    inherit (qt55) qtbase qtdeclarative;
+  };
+  qtsystems = callPackage ../development/libraries/qtsystems {
+    inherit (qt55) qtbase qtdeclarative;
+  };
+  oxide-qt = callPackage ../development/libraries/oxide-qt {};
+
   qt_gstreamer = callPackage ../development/libraries/gstreamer/legacy/qt-gstreamer {};
 
   qt_gstreamer1 = callPackage ../development/libraries/gstreamer/qt-gstreamer { boost = boost155;};

@@ -1,0 +1,33 @@
+From: Albert Astals Cid <albert.astals@canonical.com>
+Date: Thu, 15 Oct 2015 15:03:33 +0000 (+0200)
+Subject: Don't try to import Qt.test.qtestroot
+X-Git-Url: https://codereview.qt-project.org/gitweb?p=qt%2Fqtdeclarative.git;a=commitdiff_plain;h=178c1a4e5c6f6578a87f45f06dc9677b6bdb8aef;hp=6aedee898e51804863f4e94f5bdcaece9398fe0a
+
+Don't try to import Qt.test.qtestroot
+
+Qt.test.qtestroot is only provided by quick_test_main so
+if we find any plugin that tries to inherit from TestCase.qml
+qmlplugindump will fail trying to import this unexistant import
+
+Change-Id: I413a8a9eca54444c9e70942ab989d8f773db0d87
+---
+
+diff --git a/tools/qmlplugindump/main.cpp b/tools/qmlplugindump/main.cpp
+index 6248d3d..b0a6605 100644
+--- a/tools/qmlplugindump/main.cpp
++++ b/tools/qmlplugindump/main.cpp
+@@ -836,6 +836,14 @@ static bool getDependencies(const QQmlEngine &engine, const QString &pluginImpor
+         std::cerr << "failed to proecess output of qmlimportscanner" << std::endl;
+         return false;
+     }
++
++    QStringList aux;
++    foreach (const QString &str, *dependencies) {
++        if (!str.startsWith("Qt.test.qtestroot"))
++            aux += str;
++    }
++    *dependencies = aux;
++
+     return true;
+ }
+ 
