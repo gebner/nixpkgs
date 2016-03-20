@@ -6937,6 +6937,9 @@ let
   ubuntu-ui-toolkit = callPackage ../development/libraries/ubuntu-ui-toolkit {
     inherit (qt55) qtbase qtquick1 qtdeclarative qtgraphicaleffects qtquickcontrols;
   };
+  ubuntu-web = callPackage ../development/libraries/ubuntu-web {
+    inherit (qt55) qtbase qtquick1 makeQtWrapper;
+  };
   qtpim = callPackage ../development/libraries/qtpim {
     inherit (qt55) qtbase;
   };
