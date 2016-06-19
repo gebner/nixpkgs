@@ -3157,7 +3157,9 @@ in
 
   remind = callPackage ../tools/misc/remind { };
 
-  remmina = callPackage ../applications/networking/remote/remmina {};
+  remmina = callPackage ../applications/networking/remote/remmina {
+    inherit (xorg) libpthreadstubs libXdmcp;
+  };
 
   renameutils = callPackage ../tools/misc/renameutils { };
 

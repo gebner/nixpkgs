@@ -1,10 +1,9 @@
 { stdenv, fetchurl, cmake, pkgconfig, makeWrapper
 , glib, gtk, gettext, libxkbfile, libgnome_keyring, libX11
+, pcre, libpthreadstubs, libXdmcp, webkitgtk212x, epoxy, libappindicator-gtk3
 , freerdp, libssh, libgcrypt, gnutls, makeDesktopItem }:
 
 let
-  version = "1.0.0";
-  
   desktopItem = makeDesktopItem {
     name = "remmina";
     desktopName = "Remmina";
@@ -17,21 +16,22 @@ let
 
 in
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   name = "remmina-${version}";
+  version = "1.2.0.rcgit.14";
 
   src = fetchurl {
-    url = "https://github.com/downloads/FreeRDP/Remmina/Remmina-${version}.tar.gz";
-    sha256 = "7cd0d2d6adbd96c7139da8c4bfc4cf4821e1fa97242bb9cc9db32a53df289731";
+    url = "https://github.com/FreeRDP/Remmina/archive/v1.2.0-rcgit.14.tar.gz";
+    sha256 = "0l0h6xgfi4rwhly5pcms2s0d9yp4wrgby1l6g3rrk0s3136m9j00";
   };
 
-  buildInputs = [ cmake pkgconfig makeWrapper
-                  glib gtk gettext libxkbfile libgnome_keyring libX11
-                  freerdp libssh libgcrypt gnutls ];
+  buildInputs = [ cmake pkgconfig makeWrapper pcre libpthreadstubs
+                  glib gtk gettext libxkbfile libgnome_keyring libX11 libXdmcp
+                  freerdp libssh libgcrypt gnutls webkitgtk212x epoxy libappindicator-gtk3 ];
 
   cmakeFlags = "-DWITH_VTE=OFF -DWITH_TELEPATHY=OFF -DWITH_AVAHI=OFF";
 
-  patches = [ ./lgthread.patch ];
+  # patches = [ ./lgthread.patch ];
 
   postInstall = ''
     mkdir -pv $out/share/applications
@@ -42,10 +42,10 @@ stdenv.mkDerivation {
   '';
 
   meta = with stdenv.lib; {
-    license = stdenv.lib.licenses.gpl2;
-    homepage = "http://remmina.sourceforge.net/";
+    license = licenses.gpl2;
+    homepage = http://remmina.org/;
     description = "Remote desktop client written in GTK+";
-    maintainers = [];
+    maintainers = with maintainers; [ gebner ];
     platforms = platforms.linux;
   };
 }
