@@ -3,13 +3,14 @@
 
 stdenv.mkDerivation rec {
   pname = "pythonocc-core";
-  version = "0.18.1";
+  version = "unstable-2019-04-30";
 
   src = fetchFromGitHub {
     owner = "tpaviot";
     repo = "pythonocc-core";
-    rev = version;
-    sha256 = "1jk4y7f75z9lyawffpfkr50qw5452xzi1imcdlw9pdvf4i0y86k3";
+    # rev = version;
+    rev = "595b0a4e8e60e8d6011bea0cdb54ac878efcfcd2";
+    sha256 = "1fhrivhaw13lkzxdr1lyqjnddg1j9lv3cf0h86avnfbd0zg0jbl5";
   };
 
   nativeBuildInputs = [ cmake swig ninja ];
