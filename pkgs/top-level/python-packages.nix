@@ -509,6 +509,8 @@ in {
 
   lmtpd = callPackage ../development/python-modules/lmtpd { };
 
+  logbook = callPackage ../development/python-modules/logbook {};
+
   logster = callPackage ../development/python-modules/logster { };
 
   logzero = callPackage ../development/python-modules/logzero { };
