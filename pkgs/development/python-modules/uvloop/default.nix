@@ -2,6 +2,7 @@
 , stdenv
 , buildPythonPackage
 , fetchPypi
+, fetchpatch
 , pyopenssl
 , libuv
 , psutil
@@ -23,7 +24,12 @@ buildPythonPackage rec {
     sha256 = "07j678z9gf41j98w72ysrnb5sa41pl5yxd7ib17lcwfxqz0cjfhj";
   };
 
-  patches = lib.optional stdenv.isDarwin ./darwin_sandbox.patch;
+  patches = lib.optional stdenv.isDarwin ./darwin_sandbox.patch ++
+    # Fix for Python 3.8.1: https://github.com/MagicStack/uvloop/pull/346
+    [ (fetchpatch {
+        url = "https://github.com/MagicStack/uvloop/commit/f47b13e447a26ae5f68e1184b4280b790d64bab2.patch";
+        sha256 = "10yl23vn7gi0z3pihgq81zc6byalx44ky5wq4gwppdhip25ghp3m";
+      }) ];
 
   buildInputs = [
     libuv
