@@ -4,13 +4,13 @@ assert stdenv.lib.versionAtLeast kernel.version "3.5";
 
 stdenv.mkDerivation rec {
   pname = "digimend";
-  version = "unstable-2019-06-18";
+  version = "unstable-2020-06-22";
 
   src = fetchFromGitHub {
     owner = "digimend";
     repo = "digimend-kernel-drivers";
-    rev = "8b228a755e44106c11f9baaadb30ce668eede5d4";
-    sha256 = "1l54j85540386a8aypqka7p5hy1b63cwmpsscv9rmmf10f78v8mm";
+    rev = "691dae8a9fb2fdaa343fd1bf6ff79294486b2b03";
+    sha256 = "087q63ayi5xi9jssl2hlplln8h3n34ykb44a6zxczsar499wq4a6";
   };
 
   INSTALL_MOD_PATH = "\${out}";
@@ -19,15 +19,6 @@ stdenv.mkDerivation rec {
     sed 's/udevadm /true /' -i Makefile
     sed 's/depmod /true /' -i Makefile
   '';
-
-  patches = [
-    # Fix build on Linux kernel >= 5.4
-    # https://github.com/DIGImend/digimend-kernel-drivers/pull/331
-    (fetchpatch {
-      url = "https://github.com/DIGImend/digimend-kernel-drivers/commit/fb8a2eb6a9198bb35aaccb81e22dd5ebe36124d1.patch";
-      sha256 = "1j7l5hsk59gccydpf7n6xx1ki4rm6aka7k879a7ah5jn8p1ylgw9";
-    })
-  ];
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
