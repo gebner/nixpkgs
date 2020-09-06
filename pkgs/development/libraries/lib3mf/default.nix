@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, cmake, ninja, libuuid, libossp_uuid, gtest }:
+{ stdenv, fetchFromGitHub, fetchpatch, cmake, ninja, libuuid, libossp_uuid, gtest }:
 
 stdenv.mkDerivation rec {
   pname = "lib3mf";
@@ -10,6 +10,15 @@ stdenv.mkDerivation rec {
     rev = "v${version}";
     sha256 = "0w4d9zvl95g1x3r5nyd6cr27g6fwhhwaivh8a5r1xs5l6if21x19";
   };
+
+  patches = [
+    # add back pkg-config file
+    # https://github.com/3MFConsortium/lib3mf/pull/225
+    (fetchpatch {
+      url = "https://github.com/3MFConsortium/lib3mf/commit/42ca9db86a0b0d6bb7119facaf5a60f41ce6ec44.patch";
+      sha256 = "1d702vcm73zzvlpm8h7ghry8lsljf3w58vabsfrqrrv75sg0m7nf";
+    })
+  ];
 
   nativeBuildInputs = [ cmake ninja ];
 
